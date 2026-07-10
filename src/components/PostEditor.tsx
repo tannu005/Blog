@@ -53,7 +53,7 @@ export default function PostEditor({ initialData, isEdit = false }: PostEditorPr
           {isEdit ? "Edit Post" : "New Post"}
         </h1>
         <div className="flex items-center gap-4">
-          <label className="flex items-center gap-2 cursor-pointer">
+          <label className="flex items-center gap-2">
             <input
               type="checkbox"
               checked={published}
