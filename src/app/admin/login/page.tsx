@@ -1,11 +1,14 @@
 "use client"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { Eye, EyeOff } from "lucide-react"
+
 export default function AdminLogin() {
   const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
@@ -31,26 +34,27 @@ export default function AdminLogin() {
       setIsLoading(false)
     }
   }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50  px-4">
-      <div className="w-full max-w-md space-y-8 bg-white  p-8 rounded-2xl shadow-sm border border-zinc-200 ">
+    <div className="flex min-h-screen items-center justify-center bg-zinc-50 px-4">
+      <div className="w-full max-w-md space-y-8 bg-white p-8 rounded-2xl shadow-sm border border-zinc-200">
         <div className="text-center">
-          <h2 className="text-2xl font-bold tracking-tight text-zinc-900 ">
+          <h2 className="text-2xl font-bold tracking-tight text-zinc-900">
             Admin Login
           </h2>
-          <p className="mt-2 text-sm text-zinc-600 ">
+          <p className="mt-2 text-sm text-zinc-600">
             Sign in to access your dashboard.
           </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleLogin}>
           {error && (
-            <div className="p-3 bg-red-50 text-red-600   rounded-md text-sm text-center">
+            <div className="p-3 bg-red-50 text-red-600 rounded-md text-sm text-center">
               {error}
             </div>
           )}
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-zinc-900  mb-1">
+              <label className="block text-sm font-medium text-zinc-900 mb-1">
                 Email address
               </label>
               <input
@@ -58,20 +62,34 @@ export default function AdminLogin() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 text-zinc-900  shadow-sm ring-1 ring-inset ring-zinc-300  bg-transparent placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 px-3"
+                className="block w-full rounded-md border-0 py-1.5 text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-300 bg-transparent placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 px-3"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-zinc-900  mb-1">
+              <label className="block text-sm font-medium text-zinc-900 mb-1">
                 Password
               </label>
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 text-zinc-900  shadow-sm ring-1 ring-inset ring-zinc-300  bg-transparent placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 px-3"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="block w-full rounded-md border-0 py-1.5 text-zinc-900 shadow-sm ring-1 ring-inset ring-zinc-300 bg-transparent placeholder:text-zinc-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 px-3 pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-zinc-400 hover:text-zinc-600"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+              <div className="mt-2 text-right">
+                <Link href="/admin/forgot-password" className="text-sm font-medium text-blue-600 hover:underline">
+                  Forgot password?
+                </Link>
+              </div>
             </div>
           </div>
           <button

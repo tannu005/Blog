@@ -4,6 +4,8 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password?: string;
+  securityQuestion: string;
+  securityAnswer: string;
   role: 'admin' | 'author';
   createdAt: Date;
   updatedAt: Date;
@@ -25,6 +27,16 @@ const UserSchema = new Schema<IUser>(
       type: String,
       required: true,
       select: false,
+    },
+    securityQuestion: {
+      type: String,
+      required: true,
+      default: "What is your favorite color?",
+    },
+    securityAnswer: {
+      type: String,
+      required: true,
+      default: "blue",
     },
     role: {
       type: String,

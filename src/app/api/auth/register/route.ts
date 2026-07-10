@@ -6,7 +6,7 @@ export async function POST(req: Request) {
   try {
     await connectDB();
     const body = await req.json();
-    const { name, email, password } = body;
+    const { name, email, password, securityQuestion, securityAnswer } = body;
     const userExists = await User.findOne({ email });
     if (userExists) {
       return NextResponse.json({ error: 'User already exists' }, { status: 400 });
@@ -17,6 +17,8 @@ export async function POST(req: Request) {
       name,
       email,
       password,
+      securityQuestion: securityQuestion || "What is your favorite color?",
+      securityAnswer: securityAnswer || "blue",
       role,
     });
     const token = signToken(user._id.toString(), user.role);
