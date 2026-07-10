@@ -8,17 +8,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const router = useRouter()
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const publicPaths = ["/admin/login", "/admin/register", "/admin/forgot-password"]
+
   useEffect(() => {
     const token = localStorage.getItem("adminToken")
-    if (!token && pathname !== "/admin/login") {
+    if (!token && !publicPaths.includes(pathname)) {
       router.push("/admin/login")
     } else {
       setIsAuthenticated(true)
     }
     setIsLoading(false)
   }, [pathname, router])
+  
   if (isLoading) return null
-  if (pathname === "/admin/login") {
+  
+  if (publicPaths.includes(pathname)) {
     return <>{children}</>
   }
   const handleLogout = () => {
